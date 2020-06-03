@@ -1,16 +1,55 @@
 package new1
 
+import scala.util.control.Breaks._
+import scala.io.Source
+import java.io.File
+import java.io.{BufferedWriter, FileWriter, File, PrintWriter}
+
 object boyer {
   def main(args:Array[String])
   {
-     var t= "ABCDFGTRABC"
-     var txt = t.toCharArray()
-     
-     var p="ABC"
-     var pat=p.toCharArray()
-     
-     search(txt,pat)
+     var s:String= (" ")
+    var t:Char=s.charAt(0)
+    
+    var count:Int=0
+    var j:Int=0
+    var i:Int=0
+    var n:Int=0
+    
+    var newArr = new Array[Char](100000000) 
+    
+   for(line <- Source.fromFile("pi.txt").getLines())
+   {
+     count+=1
+     if(count>21)
+     {
+        var piArr= line.toCharArray()
+        var m=piArr.length
+        if(m>20)
+        {
+          for(i<-0 until m)
+          {
+            if(piArr(i)==t)
+            {
+              for(j<-i until (m-1))
+              {
+                piArr(j)=piArr(j+1)
+              }
+            }
+          }
+          for(i<-0 until 50)
+          {
+            newArr(i+n)=piArr(i)  
+          }
+          n=n+50
+        }  
+     } 
+   }
+     var p="971120"
+     var pat = p.toCharArray()
+    search(newArr,pat)  
   }
+  
   def max(a:Int,b:Int):Int=
   {
     if(a>b)
@@ -54,7 +93,9 @@ object boyer {
       }
       if(j<0)
       {
-        println(s)
+         val fw=new FileWriter("BoyerMoore.txt",true);
+         fw.write("pattern found in index : "+s+"\n")   
+         fw.close()
         
         if((s+b)<a)
         {
